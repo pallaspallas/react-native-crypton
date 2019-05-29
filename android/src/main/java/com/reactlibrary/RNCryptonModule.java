@@ -19,4 +19,9 @@ public class RNCryptonModule extends ReactContextBaseJavaModule {
   public String getName() {
     return "RNCrypton";
   }
+
+  @ReactMethod
+  public void Answer(String answer, Promise promise){
+    promise.resolve(answer);
+  }
 }
