@@ -5,12 +5,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "push-master": "git push -u origin master",
+    "pull-master": "git pull origin master"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "encryption",
+    "pbkdf2",
+    "AES"
   ],
-  "author": "",
+  "author": "https://github.com/amirhosein5858",
   "license": "",
   "peerDependencies": {
     "react-native": "^0.41.2",
