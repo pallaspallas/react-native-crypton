@@ -13,7 +13,7 @@
 
 
 #### iOS
-NOt READY YET
+NOT READY YET
 <!-- 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-crypton` and add `RNCrypton.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNCrypton.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
