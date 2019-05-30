@@ -55,7 +55,7 @@ RNCrypton.AES_CBC_256.Encrypt(plain_text ,key ,iv).then((r)=> console.log(r))
 
 //cipher 			= String we want to decrypt in base-64
 //password		= String password
-//splitter			= splitter character "]" or "-" ...
+//splitter		= splitter character "]" or "-" ...
 RNCrypton.AES_256_pbkdf2.Decrypt(cipher , password, splitter).then((r)=> console.log(r))
 
 

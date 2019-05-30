@@ -66,9 +66,9 @@ public static byte[] generateSalt() {
           byte[] keyBytes = factory.generateSecret(spec).getEncoded();
           return new SecretKeySpec(keyBytes, "AES");
       }catch (Exception e) {
-          throw new RuntimeException(e);
+          e.printStackTrace();
+          return null;
       }
-    
   }
   
   public static String bytesToHex(byte[] bytes) {
@@ -81,72 +81,81 @@ public static byte[] generateSalt() {
     return new String(hexChars);
 }
 
-  @ReactMethod
-  public static void AES_CBC_256_encryption(String itext, String ikey, String iiv, Promise promise){
-    try{
-        byte[] iv           = iiv.getBytes("UTF-8");
-        byte[] text         = itext.getBytes("UTF-8");
-        byte[] key          = ikey.getBytes("UTF-8");
-        SecretKeySpec secretKey = new SecretKeySpec(key,"AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
-        byte[] EnecyrptTextBytes = null;
-        EnecyrptTextBytes = cipher.doFinal( text );
-        String finalText = bytesToHex(EnecyrptTextBytes);
-        promise.resolve( finalText );
-    }catch(Exception e){
-        promise.reject("error");
-        e.printStackTrace();
+    @ReactMethod
+    public static void AES_CBC_256_encryption(String itext, String ikey, String iiv, Promise promise){
+      try{
+          byte[] iv           = iiv.getBytes("UTF-8");
+          byte[] text         = itext.getBytes("UTF-8");
+          byte[] key          = ikey.getBytes("UTF-8");
+          SecretKeySpec secretKey = new SecretKeySpec(key,"AES");
+          Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+          cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
+          byte[] EnecyrptTextBytes = null;
+          EnecyrptTextBytes = cipher.doFinal( text );
+          String finalText = bytesToHex(EnecyrptTextBytes);
+          promise.resolve( finalText );
+      }catch(Exception e){
+          promise.reject("error");
+          e.printStackTrace();
+      }
     }
-  }
 
+    @ReactMethod
+    public static void AES_CBC_256_pbkdf2_Decrypt(String ciphertext, String password, String splitter, Promise promise) {
+      if (ciphertext != null) {
+          try {
+              String my_splitter = "";
+              if(splitter != null){
+                my_splitter = splitter;
+              }else{
+                my_splitter = "]";
+              }
+              String[] fields     = ciphertext.split(my_splitter);
+              byte[] salt         = Base64.decode(fields[0] , Base64.DEFAULT);
+              byte[] iv           = Base64.decode(fields[1] , Base64.DEFAULT);
+              byte[] cipherBytes  = Base64.decode(fields[2] , Base64.DEFAULT);
+              SecretKey key       = createKey(salt, password);
+              Cipher cipher       = Cipher.getInstance("AES/CBC/PKCS5Padding");
+              cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
+              byte[] decyrptTextBytes = null;
+              decyrptTextBytes = cipher.doFinal(cipherBytes);
+              String text = new String(decyrptTextBytes);
+              promise.resolve( text );
+          } catch (Exception e) {
+              promise.reject("err");
+              e.printStackTrace();
+          }
+      }
+    }
+        
+    @ReactMethod
+    public static void AES_CBC_256_pbkdf2_Encrypt(String plaintext, String password, String splitter, Promise promise) {
+      if (plaintext != null && password != null && splitter != null){
+          try {
+              byte[] salt = generateSalt();
+              byte[] iv   = generateIv(16);
+              byte[] text = plaintext.getBytes("UTF-8");
+              SecretKey key = createKey(salt, password);
+              Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+              cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
+              byte[] EnecyrptTextBytes = null;
+              EnecyrptTextBytes = cipher.doFinal( text );
+              String final_res  = Base64.encodeToString(EnecyrptTextBytes , Base64.DEFAULT);
+              String final_iv   = Base64.encodeToString(iv, Base64.DEFAULT);
+              String final_salt = Base64.encodeToString(salt, Base64.DEFAULT);
+
+              if (salt != null) {
+                  promise.resolve( String.format("%s%s%s%s%s", final_salt, splitter,final_iv, splitter, final_res) );
+              }else{
+                  promise.resolve( String.format("%s%s%s"    , final_iv, splitter, final_res                     ) );
+              }
+              
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+      }
+  }
   
-
-
-  @ReactMethod
-  public static void AES_CBC_256_pbkdf2_Decrypt(String ciphertext, String password, Promise promise) {
-    if (ciphertext != null) {
-        try {
-            String[] fields     = ciphertext.split(spl);
-            byte[] salt         = Base64.decode(fields[0] , Base64.DEFAULT);
-            byte[] iv           = Base64.decode(fields[1] , Base64.DEFAULT);
-            byte[] cipherBytes  = Base64.decode(fields[2] , Base64.DEFAULT);
-            SecretKey key       = createKey(salt, password);
-            Cipher cipher       = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
-            byte[] decyrptTextBytes = null;
-            decyrptTextBytes = cipher.doFinal(cipherBytes);
-            String text = new String(decyrptTextBytes);
-            promise.resolve( text );
-        } catch (Exception e) {
-            promise.reject("err");
-            e.printStackTrace();
-        }
-    }
-  }
-
-  @ReactMethod
-  public static void AES_CBC_256_pbkdf2_Decrypt(String ciphertext, String password, String splitter, Promise promise) {
-    if (ciphertext != null) {
-        try {
-            String[] fields     = ciphertext.split(splitter);
-            byte[] salt         = Base64.decode(fields[0] , Base64.DEFAULT);
-            byte[] iv           = Base64.decode(fields[1] , Base64.DEFAULT);
-            byte[] cipherBytes  = Base64.decode(fields[2] , Base64.DEFAULT);
-            SecretKey key       = createKey(salt, password);
-            Cipher cipher       = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
-            byte[] decyrptTextBytes = null;
-            decyrptTextBytes = cipher.doFinal(cipherBytes);
-            String text = new String(decyrptTextBytes);
-            promise.resolve( text );
-        } catch (Exception e) {
-            promise.reject("err");
-            e.printStackTrace();
-        }
-    }
-  }
-
   @Override
   public String getName() {
       return "RNCrypton";
