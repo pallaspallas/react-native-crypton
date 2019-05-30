@@ -10,7 +10,7 @@ const AES_CBC_256 = {
 
 //AES_256_pbkdf2
 const AES_256_pbkdf2 ={
-    Decrypt:function(Encrypted_text , Password){ return RNCrypton.AES_CBC_256_pbkdf2_Decrypt(Encrypted_text, Password) }
+    Decrypt:function(Encrypted_text , Password, splitter){ return RNCrypton.AES_CBC_256_pbkdf2_Decrypt(Encrypted_text, Password, splitter) }
 }
 
 //ALL

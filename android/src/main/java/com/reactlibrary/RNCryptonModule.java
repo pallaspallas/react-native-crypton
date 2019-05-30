@@ -123,7 +123,29 @@ public static byte[] generateSalt() {
             e.printStackTrace();
         }
     }
-}
+  }
+
+  @ReactMethod
+  public static void AES_CBC_256_pbkdf2_Decrypt(String ciphertext, String password, String splitter, Promise promise) {
+    if (ciphertext != null) {
+        try {
+            String[] fields     = ciphertext.split(splitter);
+            byte[] salt         = Base64.decode(fields[0] , Base64.DEFAULT);
+            byte[] iv           = Base64.decode(fields[1] , Base64.DEFAULT);
+            byte[] cipherBytes  = Base64.decode(fields[2] , Base64.DEFAULT);
+            SecretKey key       = createKey(salt, password);
+            Cipher cipher       = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
+            byte[] decyrptTextBytes = null;
+            decyrptTextBytes = cipher.doFinal(cipherBytes);
+            String text = new String(decyrptTextBytes);
+            promise.resolve( text );
+        } catch (Exception e) {
+            promise.reject("err");
+            e.printStackTrace();
+        }
+    }
+  }
 
   @Override
   public String getName() {
