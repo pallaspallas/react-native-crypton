@@ -42,8 +42,8 @@ NOT READY YET
   - Add `using Crypton.RNCrypton;` to the usings at the top of the file
   - Add `new RNCryptonPackage()` to the `List<IReactPackage>` returned by the `Packages` method -->
 ## Added
-1. AES-256-CBC Encryption
-2. AES-256-CBC Decryption with PBKDF2
+1. AES-256-CBC Encryption & Decryption
+2. AES-256-CBC Encryption & Decryption with PBKDF2
 
 ## Usage
 ```javascript
@@ -51,8 +51,14 @@ import RNCrypton from 'react-native-crypton';
 //plain_text  = String we want to encrypt , must be MULTIPLE of 16 byte
 //key 				= 32 byte String
 //iv  				= 16 byte String 
+//NOTE: response is hex string for now
 RNCrypton.AES_CBC_256.Encrypt(plain_text ,key ,iv).then((r)=> console.log(r))
 
+RNCrypton.AES_CBC_256.Decrypt(Encrypted ,key ,iv).then((r)=> console.log(r))
+
+
+
+RNCrypton.AES_256_pbkdf2.Encrypt(plain_text , password, splitter).then((r)=> console.log(r))
 //cipher 			= String we want to decrypt in base-64
 //password		= String password
 //splitter		= splitter character "]" or "-" ...

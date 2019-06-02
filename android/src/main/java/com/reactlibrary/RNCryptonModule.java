@@ -51,35 +51,45 @@ public class RNCryptonModule extends ReactContextBaseJavaModule {
     return b;
 }
 
-public static byte[] generateSalt() {
-    byte[] b = new byte[PKCS5_SALT_LENGTH];
-    random.nextBytes(b);
-    return b;
-}
-
-  public static SecretKey createKey(byte[] salt, String password){
-      try{
-          int key_lenght = 256 ;
-          int iteration = 1000;
-          SecretKeyFactory factory = SecretKeyFactory.getInstance(Algoritm);
-          KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iteration, key_lenght);
-          byte[] keyBytes = factory.generateSecret(spec).getEncoded();
-          return new SecretKeySpec(keyBytes, "AES");
-      }catch (Exception e) {
-          e.printStackTrace();
-          return null;
-      }
-  }
-  
-  public static String bytesToHex(byte[] bytes) {
-    char[] hexChars = new char[bytes.length * 2];
-    for ( int j = 0; j < bytes.length; j++ ) {
-        int v = bytes[j] & 0xFF;
-        hexChars[j * 2] = hexArray[v >>> 4];
-        hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+    public static byte[] generateSalt() {
+        byte[] b = new byte[PKCS5_SALT_LENGTH];
+        random.nextBytes(b);
+        return b;
     }
-    return new String(hexChars);
-}
+
+    public static SecretKey createKey(byte[] salt, String password){
+        try{
+            int key_lenght = 256 ;
+            int iteration = 1000;
+            SecretKeyFactory factory = SecretKeyFactory.getInstance(Algoritm);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iteration, key_lenght);
+            byte[] keyBytes = factory.generateSecret(spec).getEncoded();
+            return new SecretKeySpec(keyBytes, "AES");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+  
+    public static String bytesToHex(byte[] bytes) {
+      char[] hexChars = new char[bytes.length * 2];
+      for ( int j = 0; j < bytes.length; j++ ) {
+          int v = bytes[j] & 0xFF;
+          hexChars[j * 2] = hexArray[v >>> 4];
+          hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+      }
+      return new String(hexChars);
+    }
+
+    public static byte[] hexStringToByteArray(String s) {
+      int len = s.length();
+      byte[] data = new byte[len / 2];
+      for (int i = 0; i < len; i += 2) {
+          data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                              + Character.digit(s.charAt(i+1), 16));
+      }
+      return data;
+    }
 
     @ReactMethod
     public static void AES_CBC_256_encryption(String itext, String ikey, String iiv, Promise promise){
