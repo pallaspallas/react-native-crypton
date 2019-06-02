@@ -66,4 +66,11 @@ RNCrypton.AES_256_pbkdf2.Decrypt(cipher , password, splitter).then((r)=> console
 
 
 ```
+
+##TO DO:
+-	Optimizing code & add options
+- Do more :)
+
+say hi : 
+amirhosein5858@gmail.com
   
