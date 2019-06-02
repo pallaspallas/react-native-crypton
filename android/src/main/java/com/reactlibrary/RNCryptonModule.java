@@ -101,6 +101,25 @@ public static byte[] generateSalt() {
     }
 
     @ReactMethod
+    public static void AES_CBC_256_decryption(String itext ,String ikey ,String iiv ,Promise promise){
+        try{
+            byte[] iv           = iiv.getBytes("UTF-8");
+            byte[] text         = hexStringToByteArray(itext);
+            byte[] key          = ikey.getBytes("UTF-8");
+            SecretKeySpec secretKey = new SecretKeySpec(key,"AES");
+            Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
+            byte[] DecyrptTextBytes = null;
+            DecyrptTextBytes = cipher.doFinal( text );
+            String finalText = new String(DecyrptTextBytes);
+            promise.resolve( finalText );
+        }catch(Exception e){
+              promise.reject("error");
+              e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
     public static void AES_CBC_256_pbkdf2_Decrypt(String ciphertext, String password, String splitter, Promise promise) {
       if (ciphertext != null) {
           try {

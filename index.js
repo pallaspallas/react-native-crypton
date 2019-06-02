@@ -5,7 +5,8 @@ const { RNCrypton } = NativeModules;
 
 //AES_CBC_256
 const AES_CBC_256 = {
-    Encrypt:function(Plain_text, Key, iv){ return RNCrypton.AES_CBC_256_encryption(Plain_text ,Key ,iv)}
+    Encrypt:function(Plain_text, Key, iv){ return RNCrypton.AES_CBC_256_encryption(Plain_text ,Key ,iv)},
+    Decrypt:function(Encrypted_text ,key ,iv){ return RNCrypton.AES_CBC_256_decryption(Encrypted_text ,key , iv)}
 }
 
 const AES_256_pbkdf2 ={
