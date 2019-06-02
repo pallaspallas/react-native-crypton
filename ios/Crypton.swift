@@ -7,3 +7,19 @@
 //
 
 import Foundation
+
+@objc(Crypton)
+class Crypton: NSObject {
+    
+    @objc(Hi:message:)
+    func Hi(name: String, message: String) -> Void {
+        // Date is ready to use!
+        return message
+    }
+    
+    @objc
+    func constantsToExport() -> [String: Any]! {
+        return ["someKey": "someValue"]
+    }
+    
+}
