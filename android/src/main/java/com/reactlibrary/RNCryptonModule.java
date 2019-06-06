@@ -207,6 +207,19 @@ public static byte[] generateSalt(int lenght) {
     }
 
 
+    @ReactMethod
+    public static void SHA1(String text, Promise promise) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] textBytes = text.getBytes("iso-8859-1");
+            md.update(textBytes, 0, textBytes.length);
+            byte[] sha1hash = md.digest();
+            promise.resolve( bytesToHex(sha1hash) );
+        }catch(Exception e){
+            e.printStackTrace();
+            promise.reject("error");
+        }  
+    }
 
   @Override
   public String getName() {

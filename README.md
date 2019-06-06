@@ -74,9 +74,8 @@ RNCrypton.MD5("hello").then((r)=> console.log(r))
 ```
 
 ##TO DO:
--	Optimizing code & add options
-- Do more :)
+-	adding hashes: SHA224 , SHA256 , SHA512
 
-say hi : 
+contact with me : 
 amirhosein5858@gmail.com
   

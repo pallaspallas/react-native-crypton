@@ -18,14 +18,13 @@ const AES_256_pbkdf2 ={
 
 //=============== HASHING ================
 const md5 = function(String){ return RNCrypton.MD5(String) }
-
-
+const sha1= function(string){ return RNCrypton.SHA1(string) }
 
 const mudoles = {
-    //Answer:function(message){ return RNCrypton.Answer(message) },
     AES_256_pbkdf2:AES_256_pbkdf2,
     AES_CBC_256:AES_CBC_256,
-    MD5 : md5
+    MD5 : md5,
+    SHA1: sha1
 }
 
 
