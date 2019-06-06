@@ -41,9 +41,13 @@ NOT READY YET
 2. Open up your `MainPage.cs` app
   - Add `using Crypton.RNCrypton;` to the usings at the top of the file
   - Add `new RNCryptonPackage()` to the `List<IReactPackage>` returned by the `Packages` method -->
-## Added
+## Added encyption methodes
 1. AES-256-CBC Encryption & Decryption
 2. AES-256-CBC Encryption & Decryption with PBKDF2
+
+
+## Added hash methodes
+1. MD5
 
 ## Usage
 ```javascript
@@ -64,6 +68,8 @@ RNCrypton.AES_256_pbkdf2.Encrypt(plain_text , password, splitter).then((r)=> con
 //splitter		= splitter character "]" or "-" ...
 RNCrypton.AES_256_pbkdf2.Decrypt(cipher , password, splitter).then((r)=> console.log(r))
 
+RNCrypton.MD5("hello").then((r)=> console.log(r))
+//result: 5d41402abc4b2a76b9719d911017c592
 
 ```
 

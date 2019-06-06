@@ -29,12 +29,14 @@ import android.util.Base64;
 
 import java.security.SecureRandom;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 //test
 
 public class RNCryptonModule extends ReactContextBaseJavaModule {
 
   private final ReactApplicationContext reactContext;
-  private static final String Algoritm = "PBKDF2WithHmacSHA1";
+  private static final String Algoritm_1 = "PBKDF2WithHmacSHA1";
   private static final String spl = "]";
   private static final int PKCS5_SALT_LENGTH = 8;
   private static SecureRandom random = new SecureRandom();
@@ -45,51 +47,51 @@ public class RNCryptonModule extends ReactContextBaseJavaModule {
     this.reactContext = reactContext;
   }
 
-  public static byte[] generateIv(int length) {
+public static byte[] generateIv(int length) {
     byte[] b = new byte[length];
     random.nextBytes(b);
     return b;
 }
 
-    public static byte[] generateSalt() {
-        byte[] b = new byte[PKCS5_SALT_LENGTH];
-        random.nextBytes(b);
-        return b;
-    }
+public static byte[] generateSalt(int lenght) {
+    byte[] b = new byte[lenght];
+    random.nextBytes(b);
+    return b;
+}
 
-    public static SecretKey createKey(byte[] salt, String password){
-        try{
-            int key_lenght = 256 ;
-            int iteration = 1000;
-            SecretKeyFactory factory = SecretKeyFactory.getInstance(Algoritm);
-            KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iteration, key_lenght);
-            byte[] keyBytes = factory.generateSecret(spec).getEncoded();
-            return new SecretKeySpec(keyBytes, "AES");
-        }catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+  public static SecretKey createKey(byte[] salt, String password){
+      try{
+          int key_lenght = 256 ;
+          int iteration = 1000;
+          SecretKeyFactory factory = SecretKeyFactory.getInstance(Algoritm_1);
+          KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iteration, key_lenght);
+          byte[] keyBytes = factory.generateSecret(spec).getEncoded();
+          return new SecretKeySpec(keyBytes, "AES");
+      }catch (Exception e) {
+          e.printStackTrace();
+          return null;
+      }
+  }
+
+  public static byte[] hexStringToByteArray(String s) {
+    int len = s.length();
+    byte[] data = new byte[len / 2];
+    for (int i = 0; i < len; i += 2) {
+        data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                             + Character.digit(s.charAt(i+1), 16));
     }
+    return data;
+}
   
-    public static String bytesToHex(byte[] bytes) {
-      char[] hexChars = new char[bytes.length * 2];
-      for ( int j = 0; j < bytes.length; j++ ) {
-          int v = bytes[j] & 0xFF;
-          hexChars[j * 2] = hexArray[v >>> 4];
-          hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-      }
-      return new String(hexChars);
+  public static String bytesToHex(byte[] bytes) {
+    char[] hexChars = new char[bytes.length * 2];
+    for ( int j = 0; j < bytes.length; j++ ) {
+        int v = bytes[j] & 0xFF;
+        hexChars[j * 2] = hexArray[v >>> 4];
+        hexChars[j * 2 + 1] = hexArray[v & 0x0F];
     }
-
-    public static byte[] hexStringToByteArray(String s) {
-      int len = s.length();
-      byte[] data = new byte[len / 2];
-      for (int i = 0; i < len; i += 2) {
-          data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                              + Character.digit(s.charAt(i+1), 16));
-      }
-      return data;
-    }
+    return new String(hexChars);
+}
 
     @ReactMethod
     public static void AES_CBC_256_encryption(String itext, String ikey, String iiv, Promise promise){
@@ -161,7 +163,7 @@ public class RNCryptonModule extends ReactContextBaseJavaModule {
     public static void AES_CBC_256_pbkdf2_Encrypt(String plaintext, String password, String splitter, Promise promise) {
       if (plaintext != null && password != null && splitter != null){
           try {
-              byte[] salt = generateSalt();
+              byte[] salt = generateSalt(PKCS5_SALT_LENGTH);
               byte[] iv   = generateIv(16);
               byte[] text = plaintext.getBytes("UTF-8");
               SecretKey key = createKey(salt, password);
@@ -185,6 +187,27 @@ public class RNCryptonModule extends ReactContextBaseJavaModule {
       }
   }
   
+
+    //==================== HASHING ==================
+    @ReactMethod
+    public static void MD5(final String s, Promise promise){
+        try {
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++){
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            }
+            promise.resolve( hexString.toString() ) ;
+          }catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            promise.reject("error");
+          }    
+    }
+
+
+
   @Override
   public String getName() {
       return "RNCrypton";
