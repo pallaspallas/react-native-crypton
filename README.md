@@ -57,21 +57,19 @@ NOT READY YET
 ## Usage
 ```javascript
 import RNCrypton from 'react-native-crypton';
+
 //plain_text  = String we want to encrypt , must be MULTIPLE of 16 byte
 //key 				= 32 byte String
 //iv  				= 16 byte String 
 //NOTE: response is hex string for now
 RNCrypton.AES_CBC_256.Encrypt(plain_text ,key ,iv).then((r)=> console.log(r))
-
 RNCrypton.AES_CBC_256.Decrypt(Encrypted ,key ,iv).then((r)=> console.log(r))
 
-
-
-RNCrypton.AES_256_pbkdf2.Encrypt(plain_text , password, splitter).then((r)=> console.log(r))
 //cipher 			= String we want to decrypt in base-64
 //password		= String password
 //splitter		= splitter character "]" or "-" ...
 RNCrypton.AES_256_pbkdf2.Decrypt(cipher , password, splitter).then((r)=> console.log(r))
+RNCrypton.AES_256_pbkdf2.Encrypt(plain_text , password, splitter).then((r)=> console.log(r))
 
 RNCrypton.MD5("hello").then((r)=> console.log(r))
 //result: 5d41402abc4b2a76b9719d911017c592
