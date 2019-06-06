@@ -28,7 +28,7 @@ import java.io.UnsupportedEncodingException;
 import android.util.Base64;
 
 import java.security.SecureRandom;
-
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 //test
@@ -92,6 +92,8 @@ public static byte[] generateSalt(int lenght) {
     }
     return new String(hexChars);
 }
+
+  
 
     @ReactMethod
     public static void AES_CBC_256_encryption(String itext, String ikey, String iiv, Promise promise){
@@ -189,45 +191,30 @@ public static byte[] generateSalt(int lenght) {
   
 
     //==================== HASHING ==================
+
     @ReactMethod
-    public static void MD5(final String s, Promise promise){
-        try {
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
-            StringBuffer hexString = new StringBuffer();
-            for (int i=0; i<messageDigest.length; i++){
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
-            }
-            promise.resolve( hexString.toString() ) ;
-          }catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            promise.reject("error");
-          }    
+    public static void getHash(String text, String methode,Promise promise) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        promise.resolve(generateHash(text, methode));
     }
 
-
     @ReactMethod
-    public static void SHA1(String text, Promise promise) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    private static String generateHash(String text,String methode) throws NoSuchAlgorithmException, UnsupportedEncodingException{
         try{
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance(methode);
             byte[] textBytes = text.getBytes("iso-8859-1");
             md.update(textBytes, 0, textBytes.length);
-            byte[] sha1hash = md.digest();
-            promise.resolve( bytesToHex(sha1hash) );
+            byte[] hash = md.digest();
+            return bytesToHex(hash) ;
         }catch(Exception e){
             e.printStackTrace();
-            promise.reject("error");
-        }  
+            return "error";
+        } 
     }
+
 
   @Override
   public String getName() {
       return "RNCrypton";
   }
 
-  @ReactMethod
-  public static void Answer(String answer, Promise promise){
-    promise.resolve(answer);
-  }
 }

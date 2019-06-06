@@ -48,6 +48,11 @@ NOT READY YET
 
 ## Added hash methodes
 1. MD5
+2. SHA-1
+3. SHA-224
+4. SHA-256
+5. SHA-384
+6. SHA-512
 
 ## Usage
 ```javascript
@@ -73,8 +78,10 @@ RNCrypton.MD5("hello").then((r)=> console.log(r))
 
 ```
 
-##TO DO:
--	adding hashes: SHA224 , SHA256 , SHA512
+##TODO:
+- develop ios part
+-	add types
+
 
 contact with me : 
 amirhosein5858@gmail.com
