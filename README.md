@@ -80,7 +80,7 @@ RNCrypton.MD5("hello").then((r)=> console.log(r))
 
 ```
 
-##TODO:
+## TODO:
 - develop ios part
 -	add types
 
@@ -89,5 +89,5 @@ RNCrypton.MD5("hello").then((r)=> console.log(r))
 
 E-mail: amirhosein5858@gmail.com
   
-##Thanks to
+## Thanks to
 [CryptoSwift](https://github.com/krzyzanowskim/CryptoSwift)
