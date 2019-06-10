@@ -1,5 +1,10 @@
 
-# react-native-crypton
+# Crypton
+
+## react-native-crypton 
+An encryption pakage for react native based on native implemention 
+
+
 
 ## Getting started
 
@@ -13,11 +18,10 @@
 
 
 #### iOS
-NOT READY YET
-<!-- 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-crypton` and add `RNCrypton.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNCrypton.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)< -->
+4. Run your project (`Cmd+R`)<
 
 #### Android
 
@@ -46,7 +50,7 @@ NOT READY YET
 2. AES-256-CBC Encryption & Decryption with PBKDF2
 
 
-## Added hash methodes
+## Added hash methodes android only just now (will be update soon)
 1. MD5
 2. SHA-1
 3. SHA-224
@@ -80,7 +84,10 @@ RNCrypton.MD5("hello").then((r)=> console.log(r))
 - develop ios part
 -	add types
 
+## Contact
+[Linkedin](https://www.linkedin.com/in/amirhuusein-heidari-145292a3/)
 
-contact with me : 
-amirhosein5858@gmail.com
+E-mail: amirhosein5858@gmail.com
   
+##Thanks to
+[CryptoSwift](https://github.com/krzyzanowskim/CryptoSwift)
