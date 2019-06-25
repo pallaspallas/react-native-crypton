@@ -119,8 +119,8 @@ class RNCrypton: NSObject {
  
         do {
             let ipassword : [UInt8] = Array(password.utf8)
-            let salt : [UInt8] = Array<UInt8>(base64: "9DOnvs5jN/I=")
-            let iv   : [UInt8] = Array<UInt8>(base64: "QroCK5GxmMalCRuzTErRVQ==")
+            let salt : [UInt8] = Array<UInt8>(base64: generateRandomBytes(count: 8)!)
+            let iv   : [UInt8] = Array<UInt8>(base64: generateRandomBytes(count: 16)!)
             let key = try PKCS5.PBKDF2(
                 password: ipassword,
                 salt: salt,
@@ -130,7 +130,7 @@ class RNCrypton: NSObject {
             ).calculate()
             
             let aes = try AES(key: key, blockMode: CBC(iv: iv), padding: .pkcs5)
-            let test = Array("hello".utf8)
+            let test = Array(message.utf8)
             let encrypted = try aes.encrypt(test)
             let final = salt.toBase64()!+splitter+iv.toBase64()!+splitter+encrypted.toBase64()!
             resolve(final)
