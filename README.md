@@ -80,9 +80,9 @@ RNCrypton.MD5("hello").then((r)=> console.log(r))
 
 ```
 
-## TODO:
-- develop ios part
--	add types
+## Tasks:
+- ios pbkdf2 decrypt bug fixed : done
+- add pbkdf2 key 
 
 ## Contact
 [Linkedin](https://www.linkedin.com/in/amirhuusein-heidari-145292a3/)
