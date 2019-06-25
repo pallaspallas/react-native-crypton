@@ -2,7 +2,7 @@
 {
   "name": "react-native-crypton",
   "version": "1.0.5",
-  "description": "",
+  "description": "implement native encryption for react native,simple and easy to use",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,11 +15,10 @@
     "pbkdf2",
     "AES"
   ],
+  "homepage": "https://github.com/owner/project#readme",
   "author": "https://github.com/amirhosein5858",
   "license": "",
   "peerDependencies": {
-    "react-native": "^0.41.2",
-    "react-native-windows": "0.41.0-rc.1"
-
+    "react-native": "^0.41.2"
   }
 }
