@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-crypton",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "implement native encryption for react native,simple and easy to use",
   "main": "index.js",
   "scripts": {
