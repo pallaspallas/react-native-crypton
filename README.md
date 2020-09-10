@@ -82,7 +82,7 @@ Pbkdf2.encrypt("<text>", "<password>")
 ## Contact
 [Linkedin](https://www.linkedin.com/in/amirhuusein/)
 
-E-mail: amirhosein5858@gmail.com
-  
+E-mail: amirhosein5858@gmail.com 
+Backup e-mail: amir@rednode.ir
 ## Thanks to
 [CryptoSwift](https://github.com/krzyzanowskim/CryptoSwift)
