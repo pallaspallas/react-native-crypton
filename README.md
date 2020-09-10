@@ -46,46 +46,41 @@ An encryption pakage for react native based on native implemention
   - Add `using Crypton.RNCrypton;` to the usings at the top of the file
   - Add `new RNCryptonPackage()` to the `List<IReactPackage>` returned by the `Packages` method -->
 ## Added encyption methodes
-1. AES-256-CBC Encryption & Decryption
-2. AES-256-CBC Encryption & Decryption with PBKDF2
+1. AES-256-CBC Encryption & Decryption with PBKDF2
 
 
-## Added hash methodes android only just now (will be update soon)
+<!-- ## Added hash methodes android only just now (will be update soon)
 1. MD5
 2. SHA-1
 3. SHA-224
 4. SHA-256
 5. SHA-384
-6. SHA-512
+6. SHA-512 -->
 
 ## Usage
 ```javascript
-import RNCrypton from 'react-native-crypton';
+import { Pbkdf2 } from 'react-native-crypton';
 
-//plain_text  = String we want to encrypt , must be MULTIPLE of 16 byte
-//key 				= 32 byte String
-//iv  				= 16 byte String 
-//NOTE: response is hex string for now
-RNCrypton.AES_CBC_256.Encrypt(plain_text ,key ,iv).then((r)=> console.log(r))
-RNCrypton.AES_CBC_256.Decrypt(Encrypted ,key ,iv).then((r)=> console.log(r))
-
-//cipher 			= String we want to decrypt in base-64
+//encrypt
+//text 		= String we want to decrypt in base-64
 //password		= String password
-//splitter		= splitter character "]" or "-" ...
-RNCrypton.AES_256_pbkdf2.Decrypt(cipher , password, splitter).then((r)=> console.log(r))
-RNCrypton.AES_256_pbkdf2.Encrypt(plain_text , password, splitter).then((r)=> console.log(r))
+Pbkdf2.encrypt("<text>", "<password>")
+      .then(r => console.log('encrypted:: ', r))
+      .catch(e => console.log('enc catched: ', e));
 
-RNCrypton.MD5("hello").then((r)=> console.log(r))
-//result: 5d41402abc4b2a76b9719d911017c592
+//decrypt
+ Pbkdf2.decrypt("<encrypted_text>", "<password>")
+      .then(r => console.log('decrypted:: ', r))
+      .catch(e => console.log('dec catched: ', e));
+
 
 ```
 
 ## Tasks:
-- ios pbkdf2 decrypt bug fixed : done
-- add pbkdf2 key 
+- ios pbkdf2 
 
 ## Contact
-[Linkedin](https://www.linkedin.com/in/amirhuusein-heidari-145292a3/)
+[Linkedin](https://www.linkedin.com/in/amirhuusein/)
 
 E-mail: amirhosein5858@gmail.com
   
